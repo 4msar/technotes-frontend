@@ -1,34 +1,18 @@
-import { useEffect, useState } from 'react';
-import { Route, useHistory } from 'react-router-dom';
+import { useEffect } from 'react';
+import { Redirect, Route, useHistory } from 'react-router-dom';
 import { useAuth } from '../../store';
-import Login from './Login';
 
 const PrivateRoute = ({ children, ...rest }) => {
-    const [open, setOpen] = useState(false);
-    const { loading, loggedIn } = useAuth();
+    const { loggedIn } = useAuth();
     const history = useHistory();
-
-    const handleClose = () => {
-        setOpen(false);
-        history.push('/');
-    };
 
     useEffect(() => {
         if (!loggedIn) {
-            setOpen(true);
+            history.push('/');
         }
-    }, [loggedIn]);
+    }, [history, loggedIn]);
 
-    return (
-        <Route
-            {...rest}
-            render={() =>
-                loggedIn
-                    ? children
-                    : open && <Login loading={loading} show={open} onClose={handleClose} />
-            }
-        />
-    );
+    return <Route {...rest} render={() => (loggedIn ? children : <Redirect to="/" />)} />;
 };
 
 export default PrivateRoute;

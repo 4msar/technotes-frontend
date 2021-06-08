@@ -1,14 +1,15 @@
 import React from 'react';
+import { Button } from 'react-bootstrap';
 import NoteList from './NoteList';
 
-function Sidebar() {
+function Sidebar({ openSidebar }) {
     return (
-        <section className="col sidebar">
+        <section className={['sidebar', openSidebar && 'open'].join(' ')}>
             <section className="sidebar-header">
                 <h4>Tech Notes</h4>
-                <button type="button" className="edit-button edit-button--solid" role="menuitem">
+                <Button className="note-button" size="sm" variant="primary">
                     New
-                </button>
+                </Button>
             </section>
             <NoteList />
         </section>

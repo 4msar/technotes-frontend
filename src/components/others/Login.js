@@ -1,55 +1,57 @@
-import { useEffect, useState } from 'react';
-import { Form, Modal, Button } from 'react-bootstrap';
+import { useState } from 'react';
+import { Button, Form, Modal } from 'react-bootstrap';
+import { useHistory } from 'react-router-dom';
 import ApiService from '../../helpers/ApiService';
-import { LS_KEY_NAME } from '../../helpers/constant';
-import { useAuth } from '../../store';
-import AppContainer from '../layouts/AppContainer';
+import { setAuthToken } from '../../helpers/utils';
 
 function Login({ show, onClose }) {
-    const { loggedIn } = useAuth();
     const [email, setEmail] = useState('');
-
-    useEffect(() => {
-        if (loggedIn) {
-            console.log('Logged In');
-        }
-    }, [loggedIn]);
+    const [error, setError] = useState(null);
+    const history = useHistory();
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        ApiService.login(email).then((response) => {
-            localStorage.setItem(LS_KEY_NAME, response.jwt);
-        });
+        setError(null);
+        ApiService.login(email)
+            .then((response) => {
+                setAuthToken(response.jwt);
+                history.push('/home');
+            })
+            .catch(() => {
+                setError('Authentication failed, try again!');
+                console.log('There was an error');
+            });
     };
 
     return (
-        <AppContainer hasFooter={false}>
-            <Modal show={show} onHide={onClose}>
-                <Modal.Header closeButton>
-                    <Modal.Title>Login</Modal.Title>
-                </Modal.Header>
-                <form onSubmit={handleSubmit}>
-                    <Modal.Body>
-                        <Form.Group>
-                            <Form.Label>Email</Form.Label>
-                            <Form.Control
-                                type="email"
-                                value={email}
-                                onChange={(event) => setEmail(event.target.value)}
-                            />
-                        </Form.Group>
-                    </Modal.Body>
-                    <Modal.Footer>
-                        <Button variant="secondary" onClick={onClose}>
-                            Close
-                        </Button>
-                        <Button variant="primary" type="submit">
-                            Save Changes
-                        </Button>
-                    </Modal.Footer>
-                </form>
-            </Modal>
-        </AppContainer>
+        <Modal show={show} onHide={onClose}>
+            <Modal.Header closeButton>
+                <Modal.Title>Login</Modal.Title>
+            </Modal.Header>
+            <form onSubmit={handleSubmit}>
+                <Modal.Body>
+                    <Form.Group>
+                        <Form.Label>Email</Form.Label>
+                        <Form.Control
+                            required
+                            type="email"
+                            placeholder="Enter your email address"
+                            value={email}
+                            onChange={(event) => setEmail(event.target.value)}
+                        />
+                    </Form.Group>
+                    {error && <strong className="text-danger">{error}</strong>}
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button variant="secondary" onClick={onClose}>
+                        Close
+                    </Button>
+                    <Button variant="primary" type="submit">
+                        Submit
+                    </Button>
+                </Modal.Footer>
+            </form>
+        </Modal>
     );
 }
 

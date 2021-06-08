@@ -13,4 +13,18 @@ export const getAuthToken = () => {
     return false;
 };
 
-export default {};
+export const setAuthToken = (token) => {
+    if (token) {
+        const decoded = jwtDecode(token);
+        const { exp } = decoded;
+        if (Date.now() < exp * 1000) {
+            localStorage.setItem(LS_KEY_NAME, token);
+        }
+    }
+    return false;
+};
+
+export default {
+    getAuthToken,
+    setAuthToken,
+};

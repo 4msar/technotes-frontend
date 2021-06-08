@@ -9,30 +9,20 @@
 
 .main {
     display: flex;
-    height: 100vh;
+    height: calc(100vh - 60px);
     width: 100%;
     overflow: hidden;
 }
 
-.col {
-    height: 100%;
-}
-.col:last-child {
-    flex-grow: 1;
-}
-
-ul.notes-list {
-    padding: 16px 0;
-    li {
-        padding: 0 16px;
-    }
+.navigation-bar {
+    height: 60px;
 }
 
 .notes-empty {
     padding: 16px;
 }
 
-.edit-button {
+.note-button {
     border-radius: 100px;
     letter-spacing: 0.12em;
     text-transform: uppercase;
@@ -41,34 +31,4 @@ ul.notes-list {
     cursor: pointer;
     font-weight: 700;
     outline-style: none;
-}
-.edit-button--solid {
-    background: var(--primary-blue);
-    color: var(--white);
-    border: none;
-    margin-inline-start: 6px;
-    transition: all 0.2s ease-in-out;
-}
-.edit-button--solid:hover {
-    background: var(--secondary-blue);
-}
-.edit-button--solid:focus {
-    box-shadow: var(--outline-box-shadow-contrast);
-}
-.edit-button--outline {
-    background: var(--white);
-    color: var(--primary-blue);
-    border: 1px solid var(--primary-blue);
-    margin-inline-start: 12px;
-    transition: all 0.1s ease-in-out;
-}
-.edit-button--outline:disabled {
-    opacity: 0.5;
-}
-.edit-button--outline:hover:not([disabled]) {
-    background: var(--primary-blue);
-    color: var(--white);
-}
-.edit-button--outline:focus {
-    box-shadow: var(--outline-box-shadow);
 }

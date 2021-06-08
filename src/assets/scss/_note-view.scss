@@ -2,6 +2,8 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    height: 100%;
+    flex-grow: 1;
 }
 .note {
     background: var(--white);
@@ -9,7 +11,7 @@
     border-radius: 8px;
     height: 95%;
     width: 95%;
-    min-width: 400px;
+    min-width: 300px;
     padding: 8%;
     overflow-y: auto;
 }
@@ -23,7 +25,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    flex-wrap: wrap-reverse;
+    flex-wrap: wrap;
     margin-inline-start: -12px;
 }
 .note-menu {
@@ -44,5 +46,26 @@
     margin-inline-start: 12px;
 }
 .note-preview {
-    margin-block-start: 50px;
+    margin-block-start: 25px;
+    white-space: pre-line;
+    font-family: "Roboto", serif;
+    font-size: 16px;
+}
+
+.toggle-button {
+    display: none;
+}
+
+@media screen and (max-width: 480px) {
+    .note-menu {
+        align-items: flex-start;
+        flex-direction: column;
+
+        button {
+            margin-inline-start: 12px;
+        }
+    }
+    .toggle-button {
+        display: block;
+    }
 }
