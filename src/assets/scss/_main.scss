@@ -7,6 +7,10 @@
     align-items: center;
 }
 
+.cursor-pointer {
+    cursor: pointer;
+}
+
 .main {
     display: flex;
     height: calc(100vh - 60px);
@@ -31,4 +35,10 @@
     cursor: pointer;
     font-weight: 700;
     outline-style: none;
+}
+
+@media screen and (max-width: 480px) {
+    .note-button {
+        padding: 5px;
+    }
 }

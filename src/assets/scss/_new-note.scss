@@ -1,0 +1,77 @@
+.note-editor {
+    background: var(--white);
+    display: flex;
+    height: 100%;
+    width: 100%;
+    padding: 58px;
+    overflow-y: auto;
+}
+
+.note-editor-form {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    flex-shrink: 0;
+    position: sticky;
+    top: 0;
+    input,
+    textarea {
+        background: none;
+        border: 1px solid var(--gray-70);
+        border-radius: 2px;
+        font-family: var(--monospace);
+        font-size: 0.8rem;
+        padding: 12px;
+        outline-style: none;
+    }
+
+    input:focus,
+    textarea:focus {
+        box-shadow: var(--outline-box-shadow);
+    }
+
+    input {
+        height: 44px;
+        margin-bottom: 16px;
+    }
+
+    textarea {
+        height: 100%;
+        min-width: 300px;
+    }
+
+    .title-label {
+        display: flex;
+        justify-content: space-between;
+        span {
+            width: 80%;
+        }
+        button {
+            width: 20%;
+        }
+    }
+
+    .title-input {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .content-input {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .note-editor {
+        padding: 10px;
+    }
+
+    .note-editor-form {
+        .title-label button {
+            width: 30%;
+            padding: 0px;
+        }
+    }
+}

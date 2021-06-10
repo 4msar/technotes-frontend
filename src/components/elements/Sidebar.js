@@ -2,16 +2,16 @@ import React from 'react';
 import { Button } from 'react-bootstrap';
 import NoteList from './NoteList';
 
-function Sidebar({ openSidebar }) {
+function Sidebar({ title = 'My Notes', onNew, openSidebar, ...props }) {
     return (
         <section className={['sidebar', openSidebar && 'open'].join(' ')}>
             <section className="sidebar-header">
-                <h4>Tech Notes</h4>
-                <Button className="note-button" size="sm" variant="primary">
+                <h4>{title}</h4>
+                <Button onClick={onNew} className="note-button" size="sm" variant="primary">
                     New
                 </Button>
             </section>
-            <NoteList />
+            <NoteList {...props} />
         </section>
     );
 }

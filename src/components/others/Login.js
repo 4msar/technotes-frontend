@@ -1,26 +1,32 @@
 import { useState } from 'react';
-import { Button, Form, Modal } from 'react-bootstrap';
+import { Button, Form, Modal, Spinner } from 'react-bootstrap';
 import { useHistory } from 'react-router-dom';
 import ApiService from '../../helpers/ApiService';
 import { setAuthToken } from '../../helpers/utils';
+import { useAuth } from '../../store';
 
 function Login({ show, onClose }) {
     const [email, setEmail] = useState('');
     const [error, setError] = useState(null);
+    const [loading, toggleLoading] = useState(false);
     const history = useHistory();
+    const { setUser } = useAuth();
 
     const handleSubmit = (event) => {
         event.preventDefault();
         setError(null);
+        toggleLoading(true);
         ApiService.login(email)
             .then((response) => {
                 setAuthToken(response.jwt);
+                setUser(response.jwt);
                 history.push('/home');
             })
             .catch(() => {
                 setError('Authentication failed, try again!');
                 console.log('There was an error');
-            });
+            })
+            .finally(() => toggleLoading(false));
     };
 
     return (
@@ -43,11 +49,11 @@ function Login({ show, onClose }) {
                     {error && <strong className="text-danger">{error}</strong>}
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button variant="secondary" onClick={onClose}>
+                    <Button disabled={loading} variant="secondary" onClick={onClose}>
                         Close
                     </Button>
-                    <Button variant="primary" type="submit">
-                        Submit
+                    <Button disabled={loading} variant="primary" type="submit">
+                        Submit {loading && <Spinner animation="border" size="sm" />}
                     </Button>
                 </Modal.Footer>
             </form>

@@ -3,14 +3,16 @@ import ReactDOM from 'react-dom';
 import { BrowserRouter } from 'react-router-dom';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import { AuthProvider } from './store';
+import { AuthProvider, NoteProvider } from './store';
 import './assets/scss/index.scss';
 
 ReactDOM.render(
     <React.StrictMode>
         <BrowserRouter>
             <AuthProvider>
-                <App />
+                <NoteProvider>
+                    <App />
+                </NoteProvider>
             </AuthProvider>
         </BrowserRouter>
     </React.StrictMode>,

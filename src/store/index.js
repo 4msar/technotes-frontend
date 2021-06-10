@@ -1,15 +1,9 @@
-import { forwardRef, useContext } from 'react';
+import { useContext } from 'react';
 import { AuthContext } from './AuthProvider';
+import { NoteContext } from './NoteProvider';
 
 export { default as AuthProvider } from './AuthProvider';
+export { default as NoteProvider } from './NoteProvider';
 
 export const useAuth = () => useContext(AuthContext);
-
-export const withAuth = (Component) => {
-    const WrappedComponent = forwardRef((props, ref) => (
-        <AuthContext.Consumer>
-            {(context) => <Component {...props} ref={ref} {...context} />}
-        </AuthContext.Consumer>
-    ));
-    return WrappedComponent;
-};
+export const useNotes = () => useContext(NoteContext);

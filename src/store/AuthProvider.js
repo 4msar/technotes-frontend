@@ -1,15 +1,19 @@
 import React, { createContext, useEffect, useState } from 'react';
-import { getAuthToken } from '../helpers/utils';
+import { getAuthToken, removeAuthToken } from '../helpers/utils';
 
 export const AuthContext = createContext();
 
 function AuthProvider({ children }) {
     const [user, setUser] = useState(null);
-    const [loading, toggleLoading] = useState(true);
 
     useEffect(() => {
         setUser(getAuthToken());
     }, []);
+
+    const logOut = () => {
+        setUser(null);
+        removeAuthToken();
+    };
 
     return (
         <AuthContext.Provider
@@ -17,8 +21,7 @@ function AuthProvider({ children }) {
                 user,
                 setUser,
                 loggedIn: Boolean(user),
-                loading,
-                toggleLoading,
+                logOut,
             }}
         >
             {children}

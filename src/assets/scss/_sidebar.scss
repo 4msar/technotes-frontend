@@ -1,9 +1,13 @@
-ul.notes-list {
-    padding: 16px 0;
-    li {
-        padding: 0 16px;
-    }
+.sidebar-empty,
+.sidebar-loading {
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
+.sidebar-empty {
+    height: 50vh;
+}
+
 .sidebar {
     background: var(--white);
     box-shadow: 0px 8px 24px rgba(0, 0, 0, 0.1), 0px 2px 2px rgba(0, 0, 0, 0.1);
@@ -14,21 +18,23 @@ ul.notes-list {
     min-width: 250px;
     width: 30%;
     height: 100%;
+    .sidebar-header {
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+        padding-block: 36px 16px;
+        padding-inline: 16px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
 }
-.sidebar-header {
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    padding-block: 36px 16px;
-    padding-inline: 16px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-}
-.sidebar-menu {
-    padding-inline: 16px;
-    padding-block: 0 16px;
-    display: flex;
-    justify-content: space-between;
+
+ul.notes-list {
+    padding: 16px 0;
+
+    li {
+        padding: 0 16px;
+    }
 }
 
 .sidebar-note-list-item {
@@ -41,47 +47,53 @@ ul.notes-list {
     align-items: center;
     flex-wrap: wrap;
     max-height: 100px;
-    transition: max-height 250ms ease-out;
+    transition: all 250ms ease-out;
     transform: scale(1);
-}
+    background: var(--gray-95);
 
-.sidebar-note-open {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    width: 100%;
-    z-index: 0;
-    border: none;
     border-radius: 6px;
     text-align: start;
-    background: var(--gray-95);
     cursor: pointer;
     outline-style: none;
-    color: transparent;
     font-size: 0px;
+    border: 1px solid transparent;
+
+    &.active {
+        border: 1px solid var(--primary-border);
+        background-color: var(--tertiary-blue);
+    }
+
+    &:focus {
+        box-shadow: var(--outline-box-shadow);
+    }
+
+    &:hover {
+        background: var(--gray-90);
+    }
+
+    .sidebar-note-header {
+        z-index: 1;
+        max-width: 85%;
+        pointer-events: none;
+
+        > strong {
+            display: block;
+            font-size: 1.25rem;
+            line-height: 1.2;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+    }
+
+    &:hover .action-button {
+        visibility: visible;
+        opacity: 1;
+        transition: visibility 0s linear 0s, opacity 300ms;
+    }
 }
-.sidebar-note-open:focus {
-    box-shadow: var(--outline-box-shadow);
-}
-.sidebar-note-open:hover {
-    background: var(--gray-90);
-}
-.sidebar-note-header {
-    z-index: 1;
-    max-width: 85%;
-    pointer-events: none;
-}
-.sidebar-note-header > strong {
-    display: block;
-    font-size: 1.25rem;
-    line-height: 1.2;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-.sidebar-note-toggle-expand {
+
+.action-button {
     line-height: 0;
     z-index: 2;
     border-radius: 50%;
@@ -94,38 +106,58 @@ ul.notes-list {
     cursor: default;
     transition: visibility 0s linear 20ms, opacity 300ms;
     outline-style: none;
-}
-.sidebar-note-toggle-expand:focus {
-    box-shadow: var(--outline-box-shadow);
-}
-.sidebar-note-open:hover + .sidebar-note-toggle-expand,
-.sidebar-note-open:focus + .sidebar-note-toggle-expand,
-.sidebar-note-toggle-expand:hover,
-.sidebar-note-toggle-expand:focus {
-    visibility: visible;
-    opacity: 1;
-    transition: visibility 0s linear 0s, opacity 300ms;
-}
-.sidebar-note-toggle-expand img {
-    width: 10px;
-    height: 10px;
+    &:hover,
+    &:focus {
+        visibility: visible;
+        opacity: 1;
+        transition: visibility 0s linear 0s, opacity 300ms;
+    }
+    &:focus {
+        box-shadow: var(--outline-box-shadow);
+    }
+    img {
+        width: 10px;
+        height: 10px;
+    }
 }
 
-.sidebar-note-excerpt {
-    pointer-events: none;
-    z-index: 2;
-    flex: 1 1 250px;
-    color: var(--secondary-text);
-    position: relative;
-    animation: slideIn 100ms;
+.empty-list,
+.overlay-sidebar {
+    display: none;
 }
 
 @media screen and (max-width: 480px) {
-    .sidebar {
-        display: none;
+    .empty-list {
+        display: block;
     }
-    .sidebar.open {
-        display: initial;
-        margin-right: 15px;
+
+    .sidebar-header {
+        h4 {
+            font-size: 1.8em;
+        }
+
+        button {
+            padding: 5px 10px;
+        }
+    }
+
+    .overlay-sidebar {
+        display: block;
+        height: 100%;
+        width: 100%;
+        position: absolute;
+        z-index: 99;
+    }
+
+    .sidebar {
+        z-index: 999;
+        position: absolute;
+        left: -500px;
+        transition: 0.3s all ease-in-out;
+
+        &.open {
+            left: 0;
+            margin-right: 15px;
+        }
     }
 }
