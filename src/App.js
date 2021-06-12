@@ -4,6 +4,7 @@ import Landing from './containers/Landing';
 import Home from './containers/Home';
 import Error404 from './containers/Error404';
 import SharedNotes from './containers/SharedNotes';
+import SharedUsers from './containers/SharedUsers';
 
 function App() {
     return (
@@ -15,6 +16,9 @@ function App() {
             </PrivateRoute>
             <PrivateRoute path="/shared" exact>
                 <SharedNotes />
+            </PrivateRoute>
+            <PrivateRoute path="/shared/users" exact>
+                <SharedUsers />
             </PrivateRoute>
 
             <Route path="*" exact component={Error404} />

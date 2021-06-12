@@ -3,7 +3,7 @@ import ApiService from '../../helpers/ApiService';
 import { useNotes } from '../../store';
 import NoteEditor from './NoteEditor';
 
-function CreateNote({ onAdd }) {
+function CreateNote({ onAdd, onCancel }) {
     const [title, setTitle] = useState('Untitled');
     const [disabled, toggleDisabled] = useState(true);
     const [details, setDetails] = useState('');
@@ -43,6 +43,7 @@ function CreateNote({ onAdd }) {
                     disabled={disabled}
                     title={title}
                     details={details}
+                    onCancel={onCancel}
                     onChange={handleChange}
                     onSubmit={handleSave}
                 />

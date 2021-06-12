@@ -40,7 +40,9 @@ function Home() {
                     onNew={handleNewButtonClick}
                     items={notes}
                 />
-                {createNew && <CreateNote onAdd={handleOnNewNoteAdd} />}
+                {createNew && (
+                    <CreateNote onCancel={() => setCreateNew(false)} onAdd={handleOnNewNoteAdd} />
+                )}
                 {!createNew && note && (
                     <NoteView note={note} toggleSidebar={() => showSidebar(!openSidebar)} />
                 )}

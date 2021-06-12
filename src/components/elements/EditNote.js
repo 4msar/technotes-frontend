@@ -57,6 +57,7 @@ function EditNote({ note, toggleEditing, onUpdate }) {
                 disabled={disabled}
                 title={title}
                 details={details}
+                onCancel={toggleEditing}
                 onChange={handleChange}
                 onSubmit={handleUpdate}
             />

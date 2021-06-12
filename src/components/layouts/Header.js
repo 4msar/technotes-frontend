@@ -27,6 +27,9 @@ const NavMenu = ({ logOut }) => {
                 <NavDropdown.Item as={Link} to="/shared">
                     Shared Notes
                 </NavDropdown.Item>
+                <NavDropdown.Item as={Link} to="/shared/users">
+                    Shared Users
+                </NavDropdown.Item>
 
                 <NavDropdown.Divider />
                 <NavDropdown.Item onClick={handleLogout} className="cursor-pointer" as="span">

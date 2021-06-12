@@ -41,6 +41,31 @@ export const mockRequest = (data, error = false) =>
         return !error;
     });
 
+/**
+ * Check is Empty
+ * @param mixed value
+ * @returns boolean
+ */
+export function isEmpty(value) {
+    // eslint-disable-next-line valid-typeof
+    if (typeof value === undefined || value === null || value === undefined) {
+        return true;
+    }
+    if (Array.isArray(value) && value.length <= 0) {
+        return true;
+    }
+    if (typeof value === 'object') {
+        return Object.values(value).filter((item) => item).length <= 0;
+    }
+    if (typeof value === 'string') {
+        return value.length <= 0;
+    }
+    if (typeof value === 'number') {
+        return value <= 0;
+    }
+    return !value;
+}
+
 export function formatDate(theDate, dateFormat = 'MM/dd/yyyy') {
     const date = new Date(theDate);
     function twoDigitPad(num) {

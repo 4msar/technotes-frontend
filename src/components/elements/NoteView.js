@@ -1,6 +1,7 @@
 /* eslint-disable no-alert */
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Button } from 'react-bootstrap';
+import swal from 'sweetalert';
 import ApiService from '../../helpers/ApiService';
 import { formatDate } from '../../helpers/utils';
 import EditNote from './EditNote';
@@ -11,19 +12,45 @@ function NoteView({ note, toggleSidebar }) {
         setEditing(false);
     };
     const handleShareButtonClick = () => {
-        const email = prompt('Enter the email address to share.');
-        if (/^[^\s@]+@[^\s@]+$/.test(email)) {
-            ApiService.shareNote({
-                shared_to: email,
-                note_id: note.id,
-            }).then((response) => {
-                if (response.model.is_shared) {
-                    const name = response.model.target_user.first_name ?? email;
-                    alert(`Note shared with ${name} successfully!`);
-                }
-            });
-        }
+        swal({
+            icon: 'info',
+            title: 'Share note',
+            text: 'Enter a email address to share note!',
+            content: 'input',
+            buttons: ['Cancel', 'Submit'],
+        }).then((email) => {
+            if (/^[^\s@]+@[^\s@]+$/.test(email)) {
+                ApiService.shareNote({
+                    shared_to: email,
+                    note_id: note.id,
+                })
+                    .then((response) => {
+                        if (response.model.is_shared) {
+                            const name = response.model.target_user.first_name ?? email;
+                            swal({
+                                icon: 'success',
+                                title: 'Success',
+                                text: `Note shared with ${name} successfully!`,
+                            });
+                        }
+                        return response;
+                    })
+                    .catch((error) => {
+                        if (error.error) {
+                            swal({
+                                icon: 'error',
+                                title: 'Error',
+                                text: error.error ?? 'Something went wrong!',
+                            });
+                        }
+                    });
+            }
+        });
     };
+
+    useEffect(() => {
+        setEditing(false);
+    }, [note]);
 
     return (
         <section className="note-viewer">
@@ -73,7 +100,7 @@ const ShowNote = ({ note, toggleEditing, toggleSidebar, handleShareButtonClick }
                     </Button>
                     <Button
                         onClick={handleShareButtonClick}
-                        className="note-button ml-2"
+                        className="note-button ml-1"
                         size="sm"
                         variant="secondary"
                     >

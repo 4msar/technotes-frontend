@@ -44,10 +44,11 @@
         display: flex;
         justify-content: space-between;
         span {
-            width: 80%;
+            width: 75%;
         }
-        button {
-            width: 20%;
+        > div,
+        > button {
+            width: 25%;
         }
     }
 
