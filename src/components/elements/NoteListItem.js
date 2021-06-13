@@ -1,3 +1,4 @@
+import swal from 'sweetalert';
 import trashIcon from '../../assets/icons/trash.svg';
 import ApiService from '../../helpers/ApiService';
 import { formatDate } from '../../helpers/utils';
@@ -6,15 +7,20 @@ import { useNotes } from '../../store';
 function NoteListItem({ item, isActive, onClick }) {
     const { setNotes } = useNotes();
     const handleDelete = () => {
-        // eslint-disable-next-line no-alert
-        const confirmed = window.confirm('Are you sure?');
-        if (confirmed) {
-            ApiService.deleteNote(item.id).then((result) => {
-                if (result.note === 'deleted') {
-                    setNotes((existing) => existing.filter((note) => note.id !== item.id));
-                }
-            });
-        }
+        swal({
+            icon: 'warning',
+            title: 'Are you sure?',
+            text: 'Confirm that you are sure for delete!',
+            buttons: ['Cancel', 'Ok'],
+        }).then((confirmed) => {
+            if (confirmed) {
+                ApiService.deleteNote(item.id).then((result) => {
+                    if (result.note === 'deleted') {
+                        setNotes((existing) => existing.filter((note) => note.id !== item.id));
+                    }
+                });
+            }
+        });
     };
     return (
         <li key={item.id}>
